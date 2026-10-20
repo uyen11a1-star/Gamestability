@@ -22,7 +22,13 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Shizuku.addRequestPermissionResultListener(permListener)
+        
+        // Bọc try-catch để nếu Shizuku lỗi thì app vẫn chạy, hiện lỗi lên màn hình
+        try {
+            Shizuku.addRequestPermissionResultListener(permListener)
+        } catch (e: Throwable) {
+            state.value = "Lỗi Shizuku: ${e.message}"
+        }
 
         setContent {
             MaterialTheme {
@@ -61,7 +67,9 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onDestroy() {
-        Shizuku.removeRequestPermissionResultListener(permListener)
+        try {
+            Shizuku.removeRequestPermissionResultListener(permListener)
+        } catch (e: Throwable) {}
         super.onDestroy()
     }
 }
