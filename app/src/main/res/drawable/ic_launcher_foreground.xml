@@ -1,0 +1,17 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Dải ngân hà -->
+    <path
+        android:fillColor="#4D9D4ED8"
+        android:pathData="M10,90 C30,40 70,20 100,15 C70,50 40,70 10,90 Z" />
+    <!-- Lõi thiên hà phát sáng -->
+    <path
+        android:fillColor="#FFD700"
+        android:pathData="M54,54 m-10,0 a10,10 0,1 1,20 0 a10,10 0,1 1,-20 0" />
+    <!-- Các ngôi sao -->
+    <path android:fillColor="#FFFFFF" android:pathData="M20,20 L21,23 L24,24 L21,25 L20,28 L19,25 L16,24 L19,23 Z"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M85,70 L86,72 L88,73 L86,74 L85,76 L84,74 L82,73 L84,72 Z"/>
+</vector>
