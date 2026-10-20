@@ -1,5 +1,6 @@
 package com.you.gamespace
 
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import rikka.shizuku.Shizuku
 
@@ -22,6 +23,8 @@ object ShizukuManager {
         }
     }
 
+    // Thêm @SuppressLint để Kotlin không báo lỗi private API nữa
+    @SuppressLint("PrivateApi")
     fun exec(cmd: String): String = try {
         val p = Shizuku.newProcess(arrayOf("sh", "-c", cmd), null, null)
         val out = p.inputStream.bufferedReader().readText()
