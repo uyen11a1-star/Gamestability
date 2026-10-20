@@ -2,9 +2,11 @@ name: Android CI
 
 on:
 push:
-branches: [main]
+branches:
+- main
 pull_request:
-branches: [main]
+branches:
+- main
 workflow_dispatch:
 
 permissions:
@@ -33,7 +35,6 @@ steps:
 
   - name: Verify project files
     run: |
-      echo "Checking Android project..."
       test -f settings.gradle.kts
       test -f build.gradle.kts
       test -f app/build.gradle.kts
@@ -41,13 +42,7 @@ steps:
       echo "Project files found."
 
   - name: Make Gradle executable
-    run: |
-      if [ -f gradlew ]; then
-        chmod +x gradlew
-      else
-        echo "ERROR: gradlew is missing."
-        exit 1
-      fi
+    run: chmod +x gradlew
 
   - name: Build debug APK
     run: ./gradlew --no-daemon --stacktrace assembleDebug
