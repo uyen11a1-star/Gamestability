@@ -22,7 +22,7 @@ class ThermalMonitor(context: Context) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) return unavailable()
         val status = try { pm.currentThermalStatus } catch (e: Exception) {
             Log.w(TAG, "Could not read thermal status", e)
-            PowerManager.THERMAL_STATUS_UNKNOWN
+            THERMAL_STATUS_UNKNOWN
         }
         val headroom = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             try {
@@ -32,7 +32,7 @@ class ThermalMonitor(context: Context) {
                 null
             }
         } else null
-        return ThermalState(status, statusToName(status), status != PowerManager.THERMAL_STATUS_UNKNOWN, headroom)
+        return ThermalState(status, statusToName(status), status != THERMAL_STATUS_UNKNOWN, headroom)
     }
 
     fun startMonitoring(onUpdate: (ThermalState) -> Unit) {
@@ -76,7 +76,7 @@ class ThermalMonitor(context: Context) {
     }
 
     private fun unavailable() = ThermalState(
-        PowerManager.THERMAL_STATUS_UNKNOWN, "Không có dữ liệu", false
+        THERMAL_STATUS_UNKNOWN, "Không có dữ liệu", false
     )
 
     private fun statusToName(status: Int): String = when (status) {
@@ -90,5 +90,8 @@ class ThermalMonitor(context: Context) {
         else -> "Không có dữ liệu"
     }
 
-    companion object { private const val TAG = "ThermalMonitor" }
+    companion object {
+        private const val TAG = "ThermalMonitor"
+        private const val THERMAL_STATUS_UNKNOWN = -1
+    }
 }
