@@ -2,8 +2,11 @@ name: Android CI
 
 on:
   push:
-    branches: [ "main", "master" ]
+    branches:
+      - main
   pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -11,6 +14,7 @@ permissions:
 
 jobs:
   build:
+    name: Build GameStability APK
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
@@ -21,28 +25,35 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+          cache: gradle
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
-
-      - name: Install Android SDK packages
-        run: sdkmanager "platforms;android-34" "build-tools;34.0.0"
-
-      - name: Set up Gradle 8.2
-        uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: '8.2'
+          accept-android-sdk-licenses: true
 
-      - name: Run unit tests
-        run: gradle --no-daemon :app:testDebugUnitTest
+      - name: Verify project files
+        run: |
+          test -f settings.gradle.kts
+          test -f build.gradle.kts
+          test -f app/build.gradle.kts
+          test -f app/src/main/AndroidManifest.xml
+          test -f gradlew
+          echo "Project files found."
+
+      - name: Make Gradle executable
+        run: chmod +x gradlew
 
       - name: Build debug APK
-        run: gradle --no-daemon :app:assembleDebug
+        run: ./gradlew --no-daemon --stacktrace assembleDebug
 
-      - name: Upload debug APK
+      - name: Run unit tests
+        run: ./gradlew --no-daemon testDebugUnitTest
+
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: GameStability-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
-          retention-days: 14
+          retention-days: 7
