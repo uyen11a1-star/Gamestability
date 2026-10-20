@@ -5,6 +5,7 @@
 
     <application
         android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
         android:label="GameSpace"
         android:supportsRtl="true"
         android:theme="@style/Theme.GameSpace">

@@ -2,6 +2,7 @@ package com.you.gamespace
 
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Environment
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -10,6 +11,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import rikka.shizuku.Shizuku
+import java.io.File
+import java.io.PrintWriter
+import java.io.StringWriter
 
 class MainActivity : ComponentActivity() {
 
@@ -23,7 +27,20 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
-        // Bọc try-catch để nếu Shizuku lỗi thì app vẫn chạy, hiện lỗi lên màn hình
+        // BẮT LỖI TOÀN CỤC: Nếu app văng, ghi lỗi ra file
+        Thread.setDefaultUncaughtExceptionHandler { _, throwable ->
+            val sw = StringWriter()
+            throwable.printStackTrace(PrintWriter(sw))
+            val log = sw.toString()
+            
+            try {
+                val file = File(getExternalFilesDir(null), "GameSpaceCrash.txt")
+                file.writeText(log)
+            } catch (e: Exception) {}
+            
+            android.os.Process.killProcess(android.os.Process.myPid())
+        }
+
         try {
             Shizuku.addRequestPermissionResultListener(permListener)
         } catch (e: Throwable) {
