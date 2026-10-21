@@ -213,8 +213,8 @@ fun RowScope.NeonTab(text: String, selected: Boolean, onClick: () -> Unit) {
             text,
             color = if (selected) Neon.Cyan else Neon.Muted,
             fontWeight = FontWeight.Bold,
-            fontSize = 13.sp,
-            letterSpacing = 2.sp
+            fontSize = 12.sp,
+            letterSpacing = 1.sp
         )
         Spacer(Modifier.height(6.dp))
         val line: Brush = if (selected) Neon.Gradient else SolidColor(Color.Transparent)
