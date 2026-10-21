@@ -745,7 +745,7 @@ class MainActivity : ComponentActivity() {
                     onClick = {
                         runShell("Cấp quyền thanh bên", after = {
                             permTick++
-                            if (!Settings.canDrawOverlays(this)) {
+                            if (!Settings.canDrawOverlays(this@MainActivity)) {
                                 try {
                                     startActivity(
                                         Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName"))
